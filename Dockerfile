@@ -19,6 +19,7 @@ FROM alpine
 # Install any required dependencies.
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
+RUN mkdir /root/public
 # Copy the binary from the builder stage and set it as the default command.
 COPY --from=builder /app/bin/hello /usr/local/bin/
 CMD ["hello"]
