@@ -7,6 +7,7 @@
 FROM golang:1.12-alpine as builder
 WORKDIR /app
 RUN mkdir -p public
+RUN ls -ltrh
 #RUN mkdir -p /app/public
 # The build context is set to the directory where the repo is cloned.
 # This will copy all files in the repo to /app inside the container.
