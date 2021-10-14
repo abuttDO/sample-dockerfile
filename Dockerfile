@@ -22,6 +22,9 @@ FROM alpine
 # Install any required dependencies.
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
+ARG CA_CERT
+ENV CA_CERT=${CA_CERT}
+RUN echo ${CA_CERT}
 #RUN mkdir -p /root/public
 
 # Copy the binary from the builder stage and set it as the default command.
