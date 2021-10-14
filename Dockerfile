@@ -1,11 +1,14 @@
 # This is a standard Dockerfile for building a Go app.
 # It is a multi-stage build: the first stage compiles the Go source into a binary, and
 #   the second stage copies only the binary into an alpine base.
-ARG DATABASE_URL
-ARG CA_CERT
+
 # -- Stage 1 -- #
 # Compile the app.
 FROM golang:1.12-alpine as builder
+RUN echo $CA_CERT
+RUN echo $DATABASE_URL
+ARG DATABASE_URL=$DATABASE_URL
+ARG CA_CERT=$CA_CERT
 WORKDIR /app
 RUN mkdir -p public
 RUN ls -ltrh
@@ -21,8 +24,7 @@ RUN echo $CA_CERT
 #   can use the source_dir app spec option, see: https://www.digitalocean.com/docs/app-platform/references/app-specification-reference/
 COPY . .
 RUN go build -mod=vendor -o bin/hello
-ARG DATABASE_URL
-ARG CA_CERT
+
 # -- Stage 2 -- #
 # Create the final environment with the compiled binary.
 FROM alpine
