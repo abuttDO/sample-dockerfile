@@ -1,7 +1,8 @@
 # This is a standard Dockerfile for building a Go app.
 # It is a multi-stage build: the first stage compiles the Go source into a binary, and
 #   the second stage copies only the binary into an alpine base.
-
+ARG DATABASE_URL
+ARG CA_CERT
 # -- Stage 1 -- #
 # Compile the app.
 FROM golang:1.12-alpine as builder
@@ -22,9 +23,13 @@ FROM alpine
 # Install any required dependencies.
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-ARG CA_CERT
+
 ENV CA_CERT=${CA_CERT}
-RUN echo ${CA_CERT}
+RUN echo $CA_CERT
+
+
+ENV DATABASE_URL=${DATABASE_URL}
+RUN echo $DATABASE_URL
 #RUN mkdir -p /root/public
 
 # Copy the binary from the builder stage and set it as the default command.
