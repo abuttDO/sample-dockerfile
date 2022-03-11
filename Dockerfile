@@ -5,18 +5,14 @@
 # -- Stage 1 -- #
 # Compile the app.
 FROM golang:1.12-alpine as builder
-RUN echo $CA_CERT
-RUN echo $DATABASE_URL
-ARG DATABASE_URL=$DATABASE_URL
-ARG CA_CERT=$CA_CERT
+
 WORKDIR /app
 RUN mkdir -p public
 RUN ls -ltrh
 ARG CONT_IMG_VER
 ENV CONT_IMG_VER=v1.0.0
 RUN echo $CONT_IMG_VER
-ENV CA_CERT=${CA_CERT}
-RUN echo $CA_CERT
+
 #RUN mkdir -p /app/public
 # The build context is set to the directory where the repo is cloned.
 # This will copy all files in the repo to /app inside the container.
@@ -31,13 +27,6 @@ FROM alpine
 # Install any required dependencies.
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-
-ENV CA_CERT=${CA_CERT}
-RUN echo $CA_CERT
-
-
-ENV DATABASE_URL=${DATABASE_URL}
-RUN echo $DATABASE_URL
 #RUN mkdir -p /root/public
 ARG CONT_IMG_VER
 ENV CONT_IMG_VER=v1.0.0
